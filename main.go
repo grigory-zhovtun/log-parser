@@ -6,8 +6,6 @@ import (
 
 func main() {
 
-	fmt.Println("Log Parser v.0.1")
+	fmt.Println("Log Parser started...")
 
-
-	//  TODO: make log generator first
 }
