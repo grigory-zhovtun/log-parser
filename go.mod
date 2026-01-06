@@ -1,3 +1,3 @@
-module log_parser
+module log-parser
 
 go 1.25.4
