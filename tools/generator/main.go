@@ -56,6 +56,6 @@ func main() {
 
 	err := generator(numLines, filePath)
 	if err != nil {
-		fmt.Printf("ошибка записи в буфер: %v", err)
+		fmt.Printf("ошибка: %v", err)
 	}
 }
