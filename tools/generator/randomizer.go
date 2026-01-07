@@ -23,8 +23,6 @@ func getRandomIP() string {
 }
 
 func getRandomMethod() string {
-	funcInit()
-
 	httpMethods := []string{"GET", "POST", "PUT", "DELETE"}
 	
 	return httpMethods[rand.Intn(len(httpMethods))]
