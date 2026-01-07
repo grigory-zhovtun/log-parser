@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math/rand"
 	"runtime"
-	"strconv"
 	"time"
 )
 
@@ -14,24 +13,12 @@ func funcInit() {
 	}
 }
 
-func getRandomNumber() int {
-	funcInit()
-
-	roll := rand.Intn(256)
-
-	return roll
-}
-
 func getRandomIP() string {
-	numOne := strconv.Itoa(getRandomNumber())
-	numTwo := strconv.Itoa(getRandomNumber())
-	numThree := strconv.Itoa(getRandomNumber())
-	numFour := strconv.Itoa(getRandomNumber())
 	return fmt.Sprintf("%s.%s.%s.%s", 
-		numOne, 
-		numTwo, 
-		numThree, 
-		numFour,
+		rand.Intn(256), 
+		rand.Intn(256), 
+		rand.Intn(256), 
+		rand.Intn(256),
 	)
 }
 
@@ -44,8 +31,6 @@ func getRandomMethod() string {
 }
 
 func getStatusCode() int {
-	funcInit()
-	
 	statusCodes := []int{200, 201, 400, 404, 500}
 
 	return statusCodes[rand.Intn(len(statusCodes))]
