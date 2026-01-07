@@ -21,6 +21,9 @@ func main() {
 	count := 0
     for scanner.Scan() {
         count++
+		if count % 10000 == 0 {
+			fmt.Println(count)
+		}
     }
 	
 	if err := scanner.Err(); err != nil {
