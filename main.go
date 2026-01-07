@@ -2,12 +2,33 @@ package main
 
 import (
 	"fmt"
+	"log"
+    "os"
+	"bufio"
 )
 
 func main() {
-
 	fmt.Println("Log Parser v.0.1")
 
+	file, err := os.Open("logs.log")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer file.Close() 
 
-	//  TODO: make log generator first
+	scanner := bufio.NewScanner(file)
+
+	count := 0
+    for scanner.Scan() {
+        line := scanner.Text()
+        if len(line) > 0 { 
+            count++
+        }
+    }
+	
+	if err := scanner.Err(); err != nil {
+        log.Fatal(err)
+    }
+
+	fmt.Printf("общее количество строк: %d\n", count)
 }
