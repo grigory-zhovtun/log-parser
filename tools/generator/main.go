@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"os"
 	"time"
+	"runtime"
 	"flag"
 )
 
@@ -47,6 +48,10 @@ func main() {
 	var numLines int
 	var filePath string
 
+	if runtime.Version() < "go1.20" {
+		rand.Seed(time.Now().UnixNano())
+	}
+
 	flag.IntVar(&numLines, "n", 1000000, "number of lines to generate")
 	flag.StringVar(&filePath, "file", "access.log", "path to output file")
 
@@ -56,4 +61,6 @@ func main() {
 	if err != nil {
 		fmt.Printf("ошибка: %v", err)
 	}
+
+	fmt.Printf("Generating %d lines to %s...\n", numLines, filePath) 
 }
