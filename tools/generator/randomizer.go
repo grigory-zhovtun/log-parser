@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+var httpMethods = []string{"GET", "POST", "PUT", "DELETE"}
+
 func funcInit() {
 	if runtime.Version() < "go1.20" {
 		rand.Seed(time.Now().UnixNano())
@@ -14,7 +16,7 @@ func funcInit() {
 }
 
 func getRandomIP() string {
-	return fmt.Sprintf("%s.%s.%s.%s", 
+	return fmt.Sprintf("%d.%d.%d.%d", 
 		rand.Intn(256), 
 		rand.Intn(256), 
 		rand.Intn(256), 
@@ -23,7 +25,6 @@ func getRandomIP() string {
 }
 
 func getRandomMethod() string {
-	httpMethods := []string{"GET", "POST", "PUT", "DELETE"}
 	
 	return httpMethods[rand.Intn(len(httpMethods))]
 }
