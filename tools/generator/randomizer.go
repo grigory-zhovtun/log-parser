@@ -3,17 +3,9 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"runtime"
-	"time"
 )
 
 var httpMethods = []string{"GET", "POST", "PUT", "DELETE"}
-
-func funcInit() {
-	if runtime.Version() < "go1.20" {
-		rand.Seed(time.Now().UnixNano())
-	}
-}
 
 func getRandomIP() string {
 	return fmt.Sprintf("%d.%d.%d.%d", 

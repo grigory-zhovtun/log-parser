@@ -47,8 +47,6 @@ func main() {
 	var numLines int
 	var filePath string
 
-	funcInit()
-
 	flag.IntVar(&numLines, "n", 1000000, "number of lines to generate")
 	flag.StringVar(&filePath, "file", "access.log", "path to output file")
 
