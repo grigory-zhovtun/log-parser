@@ -10,7 +10,7 @@ import (
 func main() {
 	fmt.Println("Log Parser v.0.1")
 
-	file, err := os.Open("logs.log")
+	file, err := os.Open("access.log")
     if err != nil {
         log.Fatal(err)
     }
