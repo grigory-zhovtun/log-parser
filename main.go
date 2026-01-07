@@ -20,10 +20,7 @@ func main() {
 
 	count := 0
     for scanner.Scan() {
-        line := scanner.Text()
-        if len(line) > 0 { 
-            count++
-        }
+        count++
     }
 	
 	if err := scanner.Err(); err != nil {
