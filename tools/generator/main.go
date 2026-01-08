@@ -24,7 +24,12 @@ func generator(numLines int, filePath string) (err error) {
 	}()
 
 	w := bufio.NewWriter(file)
-	defer w.Flush()
+
+	defer func() {
+		if closeErr := w.Flush(); err != nil {
+			err = closeErr
+		}
+	}()
 
 	for i := 0; i < numLines; i++ {
         ip := getRandomIP()

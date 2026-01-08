@@ -14,7 +14,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer file.Close()
+	defer func() {
+		if err := file.Close(); err != nil {
+			log.Printf("ошибка при закрытии файла: %v", err)
+		}
+	}()
 
 	scanner := bufio.NewScanner(file)
 
