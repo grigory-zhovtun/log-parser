@@ -1,4 +1,4 @@
-package logparser
+package main
 
 import (
 	"bufio"
