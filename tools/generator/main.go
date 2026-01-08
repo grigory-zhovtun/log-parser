@@ -52,15 +52,15 @@ func main() {
 		rand.Seed(time.Now().UnixNano())
 	}
 
-	flag.IntVar(&numLines, "n", 1000000, "number of lines to generate")
-	flag.StringVar(&filePath, "file", "access.log", "path to output file")
+	flag.IntVar(&numLines, "count", 1000000, "number of lines to generate")
+	flag.StringVar(&filePath, "output", "access.log", "path to output file")
 
 	flag.Parse() 
 
+	fmt.Printf("Generating %d lines to %s\n", numLines, filePath) 
+	
 	err := generator(numLines, filePath)
 	if err != nil {
 		fmt.Printf("ошибка: %v", err)
 	}
-
-	fmt.Printf("Generating %d lines to %s...\n", numLines, filePath) 
 }
