@@ -1,12 +1,13 @@
 package parser
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 	"strconv"
 )
 
-// LogEntry представляет одну запись лога Nginx
+// LogEntry описывает структуру одной строки лога
 type LogEntry struct {
 	IP         string
 	Timestamp  string
@@ -15,25 +16,25 @@ type LogEntry struct {
 	StatusCode int
 }
 
-func ParseLogLine(line string) (LogEntry, error) {
-	re := regexp.MustCompile(`^(\S+) - \[(.+?)\] "(\S+) (\S+) .*?" (\d+)`)
+var logRe = regexp.MustCompile(`^(\S+) - \[(.+?)\] "(\S+) (\S+) .*?" (\d+)`)
 
-	matches := re.FindStringSubmatch(line)
+func ParseLogLine(line string) (LogEntry, error) {
+	matches := logRe.FindStringSubmatch(line)
 
 	if len(matches) < 6 {
-		fmt.Println("Ошибка: формат строки не совпадает")
-		return
+		return LogEntry{}, errors.New("неверный формат строки лога")
 	}
 
-	statusCode, _ := strconv.Atoi(matches[5])
+	statusCode, err := strconv.Atoi(matches[5])
+	if err != nil {
+		return LogEntry{}, fmt.Errorf("некорректный status code: %w", err)
+	}
 
-	entry := LogEntry{
+	return LogEntry{
 		IP:         matches[1],
 		Timestamp:  matches[2],
 		Method:     matches[3],
 		Path:       matches[4],
 		StatusCode: statusCode,
-	}
-
-	return entry, nil
+	}, nil
 }
