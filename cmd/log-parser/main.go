@@ -3,32 +3,22 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
+
+	"log-parser/pkg/parser"
 )
 
 func main() {
-	fmt.Println("Log Parser v.0.1")
-
-	file, err := os.Open("access.log")
-	if err != nil {
-		log.Fatal(err)
-	}
+	file, _ := os.Open("access.log")
 	defer file.Close()
-
 	scanner := bufio.NewScanner(file)
-
-	count := 0
+	successCount := 0
 	for scanner.Scan() {
-		count++
-		if count%10000 == 0 {
-			fmt.Println(count)
+		_, err := parser.ParseLogLine(scanner.Text())
+		if err != nil {
+			continue
 		}
+		successCount++
 	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Printf("общее количество строк: %d\n", count)
+	fmt.Printf("Parsed: %d\n", successCount)
 }
