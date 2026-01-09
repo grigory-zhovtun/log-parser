@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	"log-parser/pkg/parser"
 )
 
 func main() {
@@ -18,11 +20,20 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
-	count := 0
+	errorCount := 0
+	successCount := 0
+
 	for scanner.Scan() {
-		count++
-		if count%10000 == 0 {
-			fmt.Println(count)
+		line := scanner.Text()
+		_, err := parser.ParseLogLine(line)
+		if err != nil {
+			errorCount++
+			continue
+		}
+
+		successCount++
+		if successCount%10000 == 0 {
+			fmt.Println(successCount)
 		}
 	}
 
@@ -30,5 +41,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("общее количество строк: %d\n", count)
+	fmt.Printf("Success: %d, Errors: %d\n", successCount, errorCount)
 }
