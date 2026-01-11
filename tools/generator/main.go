@@ -2,12 +2,12 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"math/rand"
 	"os"
-	"time"
 	"runtime"
-	"flag"
+	"time"
 )
 
 func generator(numLines int, filePath string) (err error) {
@@ -16,7 +16,7 @@ func generator(numLines int, filePath string) (err error) {
 	if err != nil {
 		return fmt.Errorf("ошибка создания файла: %w", err)
 	}
-	
+
 	defer func() {
 		if closeErr := file.Close(); closeErr != nil && err == nil {
 			err = closeErr
@@ -27,21 +27,21 @@ func generator(numLines int, filePath string) (err error) {
 	defer w.Flush()
 
 	for i := 0; i < numLines; i++ {
-        ip := getRandomIP()
-        logTime := time.Now().Format(time.RFC3339)
-        method := getRandomMethod()
-        statusCode := getStatusCode()
-        path := fmt.Sprintf("/api/v1/resource/%d", rand.Intn(1000))
+		ip := getRandomIP()
+		logTime := time.Now().Format(time.RFC3339)
+		method := getRandomMethod()
+		statusCode := getStatusCode()
+		path := fmt.Sprintf("/api/v1/resource/%d", rand.Intn(1000))
 
-        line := fmt.Sprintf("%s - [%s] \"%s %s HTTP/1.1\" %d\n", ip, logTime, method, path, statusCode)
+		line := fmt.Sprintf("%s - [%s] \"%s %s HTTP/1.1\" %d\n", ip, logTime, method, path, statusCode)
 
-        _, err := w.WriteString(line)
-        if err != nil {
-            return fmt.Errorf("ошибка записи в буфер: %w", err)
-        }
-    }
+		_, err := w.WriteString(line)
+		if err != nil {
+			return fmt.Errorf("ошибка записи в буфер: %w", err)
+		}
+	}
 
-    return nil
+	return nil
 }
 
 func main() {
@@ -55,12 +55,13 @@ func main() {
 	flag.IntVar(&numLines, "count", 1000000, "number of lines to generate")
 	flag.StringVar(&filePath, "output", "access.log", "path to output file")
 
-	flag.Parse() 
+	flag.Parse()
 
-	fmt.Printf("Generating %d lines to %s\n", numLines, filePath) 
-	
+	fmt.Printf("Generating %d lines to %s\n", numLines, filePath)
+
 	err := generator(numLines, filePath)
 	if err != nil {
 		fmt.Printf("ошибка: %v", err)
+		os.Exit(1)
 	}
 }

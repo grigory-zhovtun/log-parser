@@ -1,0 +1,55 @@
+version: 2
+
+run:
+  timeout: 5m
+
+linters:
+  disable-all: true
+  enable:
+    - errcheck      # Обязательная проверка ошибок (Guye: Errors)
+    - govet         # Стандартные проверки Go (Guide: Guidelines)
+    - ineffassign   # Обнаружение бесполезных присваиваний
+    - staticcheck   # Огромный набор проверок, Uber его активно использует
+    - unused        # Поиск мертвого кода
+    - revive        # Замена устаревшему golint (Guide: Style)
+    - prealloc      # Аллокации слайсов (Guide: Performance -> Prefer Specifying Container Capacity)
+    - gocritic      # Множество мелких проверок стиля
+    - unconvert     # Лишние конвертации типов (Guide: Performance -> Avoid string-to-byte conversion)
+    - misspell      # Опечатки (опционально, но полезно)
+    - nakedret      # Запрет "голых" возвратов в длинных функциях (Guide: Avoid Naked Parameters)
+
+linters-settings:
+  gci:
+    # Настройка порядка импортов по гайду Uber: Std -> External -> Internal
+    sections:
+      - standard
+      - default
+      - prefix(githab.com/golab) # Замени на ваш модуль
+
+  revive:
+    rules:
+      - name: package-comments
+      - name: exported
+      - name: var-naming
+      - name: error-naming
+
+  govet:
+    enable:
+      - nilness
+      - shadow
+
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+
+issues:
+  exclude-use-default: false
+  # Можно исключить проверки для тестов, если там допустим более грязный код
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - errcheck
