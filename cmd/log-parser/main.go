@@ -5,9 +5,15 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 
 	"log-parser/pkg/parser"
 )
+
+type IPStat struct {
+	IP    string
+	Count int
+}
 
 func main() {
 	fmt.Println("Log Parser v.0.1")
@@ -38,5 +44,22 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Success: %d, Errors: %d\n", len(stats), errorCount)
+	statsSlice := make([]IPStat, len(stats))
+	for ip, count := range stats {
+		statsSlice = append(statsSlice, IPStat{IP: ip, Count: count})
+	}
+
+	sort.Slice(statsSlice, func(i, j int) bool {
+		return statsSlice[i].Count > statsSlice[j].Count
+	})
+
+	fmt.Println("Top 10 IPs:")
+	limit := 10
+	if len(statsSlice) < limit {
+		limit = len(statsSlice)
+	}
+
+	for i := 0; i < limit; i++ {
+		fmt.Printf("%2d. %-15s %d requests\n", i+1, statsSlice[i].IP, statsSlice[i].Count)
+	}
 }
