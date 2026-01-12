@@ -44,7 +44,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	statsSlice := make([]IPStat, len(stats))
+	statsSlice := make([]IPStat, 0, len(stats))
 	for ip, count := range stats {
 		statsSlice = append(statsSlice, IPStat{IP: ip, Count: count})
 	}
