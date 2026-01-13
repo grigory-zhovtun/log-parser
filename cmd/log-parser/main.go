@@ -20,7 +20,7 @@ func main() {
 	fmt.Println("Log Parser v.0.1")
 
 	filePath := flag.String("file", "access.log", "path to input file")
-	limit := flag.Int("limit", 10, "max items to output")
+	limit := flag.Int("limit", 10, "max rows to output")
 
 	flag.Parse()
 
