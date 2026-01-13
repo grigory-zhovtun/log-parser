@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -18,9 +19,14 @@ type IPStat struct {
 func main() {
 	fmt.Println("Log Parser v.0.1")
 
+	filePath := flag.String("file", "access.log", "path to input file")
+	limit := flag.Int("limit", 10, "max items to output")
+
+	flag.Parse()
+
 	stats := make(map[string]int)
 
-	file, err := os.Open("access.log")
+	file, err := os.Open(*filePath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -54,12 +60,12 @@ func main() {
 	})
 
 	fmt.Println("Top 10 IPs:")
-	limit := 10
-	if len(statsSlice) < limit {
-		limit = len(statsSlice)
+
+	if len(statsSlice) < *limit {
+		*limit = len(statsSlice)
 	}
 
-	for i := 0; i < limit; i++ {
+	for i := 0; i < *limit; i++ {
 		fmt.Printf("%2d. %-15s %d requests\n", i+1, statsSlice[i].IP, statsSlice[i].Count)
 	}
 }
